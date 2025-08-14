@@ -1,11 +1,18 @@
 from datetime import datetime
 
-def is_date_iso(s: str) -> bool:
-    try:
-        datetime.strftime(s, "%Y-%m-%d")
-        return True
-    except Exception:
-        return False
+def is_date_iso(s: str) -> str | None:
+    s = s.strip()
+    if not s:
+        return None
+    formatos = [
+        "%Y-%m-%d",  # 2025-08-14
+        "%d-%m-%Y",  # 14-08-2025
+        "%Y/%m/%d",  # 2025/08/14
+        "%d/%m/%Y",  # 14/08/2025
+        "%Y%m%d",    # 20250814
+        "%d%m%Y",    # 14082025
+    ]
+    
 
 def ask(prompt:str, required: bool = True) -> str:
     while True:

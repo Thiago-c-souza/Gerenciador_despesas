@@ -47,7 +47,7 @@ def atualizar(id_: int, valor: float | None = None, data: str | None = None,cate
     
     params.append(id_)
     with get_conn() as conn:
-        cur = conn.execute(f"UPDATE despesas SET {', '.join(campos)} WHERE id = ?" params)
+        cur = conn.execute(f"UPDATE despesas SET {', '.join(campos)} WHERE id = ?", params)
         return cur.rowcount
 
 def deletar(id_: int) -> int:

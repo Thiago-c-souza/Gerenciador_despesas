@@ -11,8 +11,76 @@ def menu():
     print("0) Sair")
 
 def acao_adicionar():
-    pass
+    try:
+        valor = float(ask("valor (ex: 123.45)"))
+        data = ask_date("data (YYY-MM-DD)")
+        categoria = ask("categoria: ")
+        descricao = ask("descrição (pode vazio)", required=False)
+        new_id = desepesas.adicionar(valor, data, categoria, descricao or None)
+        print(f"Despesa adiciona (id={new_id}).")
+    except ValueError:
+        print("Valor invalido")
 
-if __name__ == '__main__':
+def acao_listar():
+    ini = ask_date("Filtrar Data inicial (YYYY-MM-DD) [Enter p/pular]: ", allow_empty=True)
+    fim = ask_date("Filtrar Data final (YYYY-MM-DD) [Enter p/pular]: ", allow_empty=True)
+    cat = ask("Filtrar categoria [Enter p/pular]:", required=False) or None
+    rows = desepesas.listar(ini, fim, cat)
+    if not rows:
+        print("Nenhum registro.")
+        return
+    print("\nID | DATA     |VALOR     CATEGORIA     |DESCRIÇÃO")
+    print("-" * 60)
+    for r in rows:
+        _id, valor, data, categoria, descricao = r
+        print(f"{_id:>2} | {data:<10} | {valor:>8.2f} | {categoria:<9} | {descricao or ''}")
+
+def acao_atualizar():
+    try:
+        _id = int(ask("ID da despesa: "))
+    except ValueError:
+        print("ID inválido.")
+        return
+    val = ask("Novo valor [Enter p/ manter]: ", required=False)
+    valor = float(val) if val else None
+    data = ask_date("Nova data (YYYY-MM-DD) [Enter p/ manter]: ", allow_empty=True)
+    categoria = ask("Nova categoria [Enter p/ manter]: ", required=False) or None
+    descricao = ask("Nova descrição [Enter p/ manter]: ", required=False)
+    if descricao == "":
+        descricao = None  # manter
+    linhas = desepesas.atualizar(_id, valor, data, categoria, descricao)
+    print("✔ Atualizado." if linhas else "Nada atualizado. Verifique o ID.")
+
+def acao_deletar():
+    try:
+        _id = int(ask("ID da despesa: "))
+    except ValueError:
+        print("ID inválido.")
+        return
+    conf = ask(f"Confirma deletar id={_id}? (s/N): ", required=False).lower()
+    if conf == "s":
+        linhas = desepesas.deletar(_id)
+        print("✔ Deletado." if linhas else "ID não encontrado.")
+    else:
+        print("Cancelado.")
+
+if __name__ == "__main__":
     db()
-    print("Banco iniciado com sucesso!")
+    while True:
+        menu()
+        op = ask("Escolha: ", required=False)
+        if op == "1":
+            acao_adicionar()
+        elif op == "2":
+            acao_listar()
+        elif op == "3":
+            acao_atualizar()
+        elif op == "4":
+            acao_deletar()
+        elif op == "0":
+            print("Até mais!")
+            break
+        else:
+            print("Opção inválida.")
+
+
