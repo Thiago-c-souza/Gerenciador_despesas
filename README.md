@@ -33,7 +33,7 @@ O objetivo é permitir o cadastro de gastos, categorias, geração de relatório
 
 ---
 
-## ⚠️ Status do desenvolvimento
+## ⚠️ Status do Desenvolvimento
 
 O desenvolvimento encontra-se **pausado na parte de relatórios** (`acao_relatorios`).  
 Durante os testes, ocorreu o seguinte erro:
@@ -56,7 +56,7 @@ A parte de gráficos com Matplotlib chegou a ser iniciada, mas ainda não está 
 
 📊 Matplotlib (planejado para relatórios visuais)
 
-## Próximos passos
+## Próximos Passos
 
 Finalizar a função de relatórios com valores em reais
 
@@ -72,11 +72,12 @@ git clone https://github.com/Thiago-c-souza/Gerenciador_despesas.git
 # Acesse a pasta
 cd gerenciador_despesas
 
-# Execute o sistema
+# Como Executar
 python main.py
 
 pip install -r requirements.txt
 
+# Demonstração
 ![alt text](img/image.png)
 ![alt text](img/image-1.png)
 
