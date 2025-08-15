@@ -11,7 +11,7 @@ def adicionar (valor: float, data: str, categoria: str, descricao: str | None = 
         return cur.lastrowid
     
 def listar(filtro_data_ini: str | None = None, filtro_data_fim: str | None = None, categoria: str | None = None):
-    sql = "SELECT id, valor, data, categoria, descricao from despesas WHERE 1=1"
+    sql = "SELECT id, valor, data, categoria, descricao from despesas WHERE 1=1 "
     params = []
     if filtro_data_ini:
         sql += "AND date(data) >= date(?)"
@@ -23,7 +23,7 @@ def listar(filtro_data_ini: str | None = None, filtro_data_fim: str | None = Non
         sql += "AND categoria = ?"
         params.append(categoria)
     sql += "ORDER BY date(data) DESC, id DESC"
-    with get_conn as conn:
+    with get_conn() as conn:
         return conn.execute(sql, params).fetchall()
 
 def atualizar(id_: int, valor: float | None = None, data: str | None = None,categoria: str | None = None, descricao: str | None = None) -> int:
@@ -52,7 +52,7 @@ def atualizar(id_: int, valor: float | None = None, data: str | None = None,cate
 
 def deletar(id_: int) -> int:
     with get_conn() as conn:
-        cur = conn.execute('DELETE FROM despesas WHERE id = ?'(id_,))
+        cur = conn.execute('DELETE FROM despesas WHERE id = ?',(id_,))
         return cur.rowcount
     
     

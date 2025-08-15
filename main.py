@@ -1,5 +1,5 @@
 from db.database import init_db as db
-from models import desepesas
+from models import despesas
 from utils.helpers import ask, ask_date
 
 def menu():
@@ -13,10 +13,10 @@ def menu():
 def acao_adicionar():
     try:
         valor = float(ask("valor (ex: 123.45)"))
-        data = ask_date("data (YYY-MM-DD)")
+        data = ask_date("data (YYYY-MM-DD)")
         categoria = ask("categoria: ")
         descricao = ask("descrição (pode vazio)", required=False)
-        new_id = desepesas.adicionar(valor, data, categoria, descricao or None)
+        new_id = despesas.adicionar(valor, data, categoria, descricao or None)
         print(f"Despesa adiciona (id={new_id}).")
     except ValueError:
         print("Valor invalido")
@@ -25,7 +25,7 @@ def acao_listar():
     ini = ask_date("Filtrar Data inicial (YYYY-MM-DD) [Enter p/pular]: ", allow_empty=True)
     fim = ask_date("Filtrar Data final (YYYY-MM-DD) [Enter p/pular]: ", allow_empty=True)
     cat = ask("Filtrar categoria [Enter p/pular]:", required=False) or None
-    rows = desepesas.listar(ini, fim, cat)
+    rows = despesas.listar(ini, fim, cat)
     if not rows:
         print("Nenhum registro.")
         return
@@ -48,7 +48,7 @@ def acao_atualizar():
     descricao = ask("Nova descrição [Enter p/ manter]: ", required=False)
     if descricao == "":
         descricao = None  # manter
-    linhas = desepesas.atualizar(_id, valor, data, categoria, descricao)
+    linhas = despesas.atualizar(_id, valor, data, categoria, descricao)
     print("✔ Atualizado." if linhas else "Nada atualizado. Verifique o ID.")
 
 def acao_deletar():
@@ -59,7 +59,7 @@ def acao_deletar():
         return
     conf = ask(f"Confirma deletar id={_id}? (s/N): ", required=False).lower()
     if conf == "s":
-        linhas = desepesas.deletar(_id)
+        linhas = despesas.deletar(_id)
         print("✔ Deletado." if linhas else "ID não encontrado.")
     else:
         print("Cancelado.")

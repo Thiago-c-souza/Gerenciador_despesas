@@ -12,6 +12,13 @@ def is_date_iso(s: str) -> str | None:
         "%Y%m%d",    # 20250814
         "%d%m%Y",    # 14082025
     ]
+    for fmt in formatos:
+        try:
+            dt = datetime.strptime(s, fmt)
+            return dt.strftime("%Y-%m-%d")
+        except ValueError:
+            continue
+    return None
     
 
 def ask(prompt:str, required: bool = True) -> str:
@@ -27,6 +34,7 @@ def ask_date(prompt: str, allow_empty: bool = False) -> str | None:
         v = input(prompt).strip()
         if not v and allow_empty:
             return None
-        if is_date_iso(v):
-            return v
-        print("Use o formato YYYY-MM-DD.")
+        iso = is_date_iso(v)
+        if iso:
+            return iso
+        print(' Data invalida.')
