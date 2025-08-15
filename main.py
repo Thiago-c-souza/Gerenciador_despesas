@@ -1,6 +1,7 @@
 from db.database import init_db as db
 from models import despesas, relatorios
 from utils.helpers import ask, ask_date, fmt_real
+from dashboard import grafico_barra_mes, grafico_pizza_cat
 
 def menu():
     print("\n=== Gerenciador de Despesas ===")
@@ -69,6 +70,8 @@ def relatorio_menu():
     print("\n=== Relatorios ===")
     print("1) Total por categoria")
     print("2) Total por mes (YYYY-MM)")
+    print("3) Grafico pizza por categoria")
+    print("4) Grafico barra por mes")
     print("0) Voltar")
 
 
@@ -104,6 +107,17 @@ def acao_relatorios():
                         print(f"{mes:<20} | {fmt_real(total)}")
                     else:
                         print(f"{mes:<20} | {total:.2f}")                    
+       
+        elif op == "3":
+            ini = ask_date("Data inicial (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            fim = ask_date("Data final (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            grafico_pizza_cat(ini, fim)
+        
+        elif op == "4":
+            ini = ask_date("Data inicial (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            fim = ask_date("Data final (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            grafico_barra_mes(ini, fim)
+        
         elif op == "0":
             break
         else:
