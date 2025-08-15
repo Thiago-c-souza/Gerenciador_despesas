@@ -55,4 +55,4 @@ def deletar(id_: int) -> int:
         cur = conn.execute('DELETE FROM despesas WHERE id = ?',(id_,))
         return cur.rowcount
     
-    
+

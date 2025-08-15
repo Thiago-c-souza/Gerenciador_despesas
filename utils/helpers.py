@@ -38,3 +38,7 @@ def ask_date(prompt: str, allow_empty: bool = False) -> str | None:
         if iso:
             return iso
         print(' Data invalida.')
+
+def fmt_real(v: float) -> str:
+    s = f"{v:,.2f}"
+    return "R$ " + s.replace(",", "X").replace(".", ",").replace("X", ".")

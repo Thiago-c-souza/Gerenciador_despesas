@@ -1,6 +1,6 @@
 from db.database import init_db as db
-from models import despesas
-from utils.helpers import ask, ask_date
+from models import despesas, relatorios
+from utils.helpers import ask, ask_date, fmt_real
 
 def menu():
     print("\n=== Gerenciador de Despesas ===")
@@ -8,6 +8,7 @@ def menu():
     print("2) Lista")
     print("3) Atualizar")
     print("4) Deletar")
+    print("5) Relatorios")
     print("0) Sair")
 
 def acao_adicionar():
@@ -29,7 +30,7 @@ def acao_listar():
     if not rows:
         print("Nenhum registro.")
         return
-    print("\nID | DATA     |VALOR     CATEGORIA     |DESCRIÇÃO")
+    print("\nID | DATA       |VALOR     |CATEGORIA  |DESCRIÇÃO")
     print("-" * 60)
     for r in rows:
         _id, valor, data, categoria, descricao = r
@@ -49,7 +50,7 @@ def acao_atualizar():
     if descricao == "":
         descricao = None  # manter
     linhas = despesas.atualizar(_id, valor, data, categoria, descricao)
-    print("✔ Atualizado." if linhas else "Nada atualizado. Verifique o ID.")
+    print("Atualizado." if linhas else "Nada atualizado. Verifique o ID.")
 
 def acao_deletar():
     try:
@@ -60,9 +61,54 @@ def acao_deletar():
     conf = ask(f"Confirma deletar id={_id}? (s/N): ", required=False).lower()
     if conf == "s":
         linhas = despesas.deletar(_id)
-        print("✔ Deletado." if linhas else "ID não encontrado.")
+        print("Deletado." if linhas else "ID não encontrado.")
     else:
         print("Cancelado.")
+
+def relatorio_menu():
+    print("\n=== Relatorios ===")
+    print("1) Total por categoria")
+    print("2) Total por mes (YYYY-MM)")
+    print("0) Voltar")
+
+
+def acao_relatorios():
+    while True:
+        relatorio_menu()
+        op = ask("Escolha: ", required=False)
+        if op == "1":
+            ini = ask_date("Data inicial (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            fim = ask_date("Data final (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            rows = relatorios.total_categoria(ini, fim)
+            if not rows:
+                print("Sem dados para o periodo.")
+            else:
+                print("\nCATEGORIA            | TOTAL")
+                print("-" * 34)
+                for categoria, total in rows:
+                    if "fmt_real" in globals():
+                        print(f"{categoria:<20} | {fmt_real(total)}")
+                    else:
+                        print(f"{categoria:<20} | {total:.2f}")
+        elif op == "2":
+            ini = ask_date("Data inicial (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            fim = ask_date("Data final (YYYY-MM-DD) [Enter p/ pular]: ", allow_empty=True)
+            rows = relatorios.total_mes(ini, fim)
+            if not rows:
+                print("Sem dados para o periodo.")
+            else:
+                print("\nMES          | TOTAL")
+                print("-" * 22)
+                for mes, total in rows:
+                    if "fmt_real" in globals():
+                        print(f"{mes:<20} | {fmt_real(total)}")
+                    else:
+                        print(f"{mes:<20} | {total:.2f}")                    
+        elif op == "0":
+            break
+        else:
+            print("Opção invalida.")
+
 
 if __name__ == "__main__":
     db()
@@ -77,6 +123,8 @@ if __name__ == "__main__":
             acao_atualizar()
         elif op == "4":
             acao_deletar()
+        elif op == "5":
+            acao_relatorios()
         elif op == "0":
             print("Até mais!")
             break
