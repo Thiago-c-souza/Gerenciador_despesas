@@ -48,7 +48,7 @@ Os relatórios já estão estruturados, mas ainda não exibem os valores formata
 
 A parte de gráficos com Matplotlib chegou a ser iniciada, mas ainda não está totalmente configurada
 
-🔧 Tecnologias utilizadas
+## 🔧 Tecnologias utilizadas
 
 🐍 Python 3.12+
 
@@ -56,7 +56,7 @@ A parte de gráficos com Matplotlib chegou a ser iniciada, mas ainda não está 
 
 📊 Matplotlib (planejado para relatórios visuais)
 
-Próximos passos
+## Próximos passos
 
 Finalizar a função de relatórios com valores em reais
 
@@ -67,7 +67,7 @@ Melhorar a interface de uso no terminal
 (Opcional) Criar uma interface gráfica futuramente
 
 # Clone o repositório
-git clone https://github.com/seu-usuario/gerenciador_despesas.git
+git clone https://github.com/Thiago-c-souza/Gerenciador_despesas.git
 
 # Acesse a pasta
 cd gerenciador_despesas
@@ -80,7 +80,7 @@ pip install -r requirements.txt
 ![alt text](img/image.png)
 ![alt text](img/image-1.png)
 
-🤝 Contribuição
+## 🤝 Contribuição
 
 Se quiser contribuir com melhorias:
 
@@ -94,11 +94,11 @@ Faça um push (git push origin minha-feature)
 
 Abra um Pull Request
 
-📜 Licença
+## 📜 Licença
 
 Este projeto está sob a licença MIT.
 Sinta-se livre para usar, modificar e compartilhar.
 
-👨‍💻 Autor
+## 👨‍💻 Autor
 
 Desenvolvido por Thiago Caixeta de Souza 🚀
