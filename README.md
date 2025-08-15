@@ -40,6 +40,7 @@ Durante os testes, ocorreu o seguinte erro:
 
 ```bash
 TypeError: argument of type 'builtin_function_or_method' is not iterable
+```
 
 O que isso significa?
 
